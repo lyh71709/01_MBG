@@ -38,15 +38,25 @@ class Help:
         self.help_box = Toplevel()
         
         # Set up GUI Frame
-        self.help_frame = Frame(width=450, height=450, pady=10)
-        self.converter_frame.grid()
+        self.help_frame = Frame(self.help_box, bg=background)
+        self.help_frame.grid()
 
         # Set up Help heading (Row 0)
-        self.help_label = Label(self.help_frame, text="Help", font="Ariel")
+        self.how_heading = Label(self.help_frame, text="Help/Instructions", font=("Ariel", "14", "bold"), bg=background)
+        self.how_heading.grid(row=0)
 
         # Help text (label, Row 1)
+        self.help_text = Text(self.help_frame, text="Hello this is help", justify=LEFT, width=40, bg=background, wrap=250)
+        self.help_text.grid(column=1, row=1)
 
         # Dismiss button (Row 2)
+        self.dismiss_button = Button(self.help_frame, text="Dismiss", width=10, bg=background, font=("Ariel", "10", "bold"), command=partial(self.close_help, partner))
+        self.dismiss_button.grid(row=2, pady=10)
+
+    def close_help(self,partner):
+        # Put help button back to normal...
+        partner.help_button.config(state=NORMAL)
+        self.help_box.destroy()
 
 # main routine
 clear = lambda:os.system('cls')
@@ -57,3 +67,5 @@ if __name__ == "__main__":
     root.title("Temperature Converter")
     something = Converter(root)
     root.mainloop()
+
+()
