@@ -1,5 +1,6 @@
 from tkinter import *
-import random
+import random 
+from functools import partial
 import os
 
 
@@ -37,6 +38,9 @@ class Help:
         # Sets up child window (ie: help box)
         self.help_box = Toplevel()
         
+        # If users press cross at top, closes help and 'releases' help button
+        self.help_box.protocol('WM_DELETE_WINDOW', partial(self.close_help, partner))
+
         # Set up GUI Frame
         self.help_frame = Frame(self.help_box, bg=background)
         self.help_frame.grid()
@@ -45,9 +49,9 @@ class Help:
         self.how_heading = Label(self.help_frame, text="Help/Instructions", font=("Ariel", "14", "bold"), bg=background)
         self.how_heading.grid(row=0)
 
-        # Help text (label, Row 1)
-        self.help_text = Text(self.help_frame, text="Hello this is help", justify=LEFT, width=40, bg=background, wrap=250)
-        self.help_text.grid(column=1, row=1)
+        # Help text (Label, Row 1)
+        self.help_text = Label(self.help_frame, text="This is Help", justify=LEFT, width=40, bg=background, wrap=250)
+        self.help_text.grid(row=1)
 
         # Dismiss button (Row 2)
         self.dismiss_button = Button(self.help_frame, text="Dismiss", width=10, bg=background, font=("Ariel", "10", "bold"), command=partial(self.close_help, partner))
