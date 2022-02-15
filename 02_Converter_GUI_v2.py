@@ -3,6 +3,28 @@ import random
 
 
 class Foo:
+    def temp_check(low):
+        valid = False
+        while not valid:
+            try:
+                response = float(input("Enter a number: "))
+
+                if response < low:
+                    print("Too Cold!!")
+                else:
+                    return response
+
+            except ValueError:
+                print("Please enter a number")
+
+    def to_c(from_f):
+        centigrade = (from_f - 32) * 5/9
+        return centigrade
+
+    def to_f(from_c):
+        fahrenheit = (from_c * 9/5) + 32
+        return fahrenheit
+
     def __init__(self, parent):
         # Formatting variables
         background_color = "light blue"

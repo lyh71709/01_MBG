@@ -15,11 +15,11 @@ class Converter:
         self.converter_frame.grid()
 
         # Temperature Conversion Heading (Row 0)
-        self.temp_converter_label = Label(self.converter_frame, text="Temperature Converter", font=("Ariel", "16", "bold"), bg=background_color, padx=10, pady=10)
+        self.temp_converter_label = Label(self.converter_frame, text="Temperature Converter", font=("Arial", "16", "bold"), bg=background_color, padx=10, pady=10)
         self.temp_converter_label.grid(row=0)
 
         # Help Button (Row 1)
-        self.help_button = Button(self.converter_frame, text="Help", font=("Ariel", "14"), padx=10, pady=10, command=self.help)
+        self.help_button = Button(self.converter_frame, text="Help", font=("Arial", "14"), padx=10, pady=10, command=self.help)
         self.help_button.grid(row=1)
 
     def help(self):
@@ -46,7 +46,7 @@ class Help:
         self.help_frame.grid()
 
         # Set up Help heading (Row 0)
-        self.how_heading = Label(self.help_frame, text="Help/Instructions", font=("Ariel", "14", "bold"), bg=background)
+        self.how_heading = Label(self.help_frame, text="Help/Instructions", font=("Arial", "14", "bold"), bg=background)
         self.how_heading.grid(row=0)
 
         # Help text (Label, Row 1)
@@ -54,7 +54,7 @@ class Help:
         self.help_text.grid(row=1)
 
         # Dismiss button (Row 2)
-        self.dismiss_button = Button(self.help_frame, text="Dismiss", width=10, bg=background, font=("Ariel", "10", "bold"), command=partial(self.close_help, partner))
+        self.dismiss_button = Button(self.help_frame, text="Dismiss", width=10, bg=background, font=("Arial", "10", "bold"), command=partial(self.close_help, partner))
         self.dismiss_button.grid(row=2, pady=10)
 
     def close_help(self,partner):
