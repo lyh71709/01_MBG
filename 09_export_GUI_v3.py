@@ -8,7 +8,10 @@ class Foo:
         background_color = "light blue"
 
         # Initialise list hold calculation history
-        self.all_calculations = []
+        self.all_calc_list = ['0 degrees C is -17.8 degrees F', '0 degrees C is 32 degrees F', 
+                                '40 degrees C is 104 degrees F', '40 degrees C is 4.4 degrees F',
+                                '12 degrees C is 53.6 degrees F', '24 degrees C is 75.2 degrees F',  
+                                '100 degrees C is 37.8 degrees F', ]
 
         # Converter Frame
         self.converter_frame = Frame(width=600, height=600, bg=background_color, pady=10)
