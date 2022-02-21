@@ -25,16 +25,14 @@ class Converter:
         self.temp_converter_label.grid(row=0)
 
         # history Button (Row 1)
-        self.history_button = Button(self.converter_frame, text="History", font=("Arial", "14"), padx=10, pady=10, command=self.history)
+        self.history_button = Button(self.converter_frame, text="History", font=("Arial", "14"), padx=10, pady=10, command=lambda: self.history(self.all_calc_list))
         self.history_button.grid(row=1)
 
-    def history(self):
-        print("You asked for history")
-        get_history = history(self)
-        get_history.history_text.configure(text="History text goes here")
+    def history(self, calc_history):
+        History(self, calc_history)
 
-class history:
-    def __init__(self, partner):
+class History:
+    def __init__(self, partner, calc_history):
 
         background = "#a9ef99" # Pale green
 
@@ -59,8 +57,21 @@ class history:
         self.history_text = Label(self.history_frame, text="Here are your most recent calculations. Please use the export button to create a text file of all your calculations for this session", font="arial 10 italic", justify=LEFT, width=40, fg="maroon", bg=background, wrap=250, padx=10, pady=10)
         self.history_text.grid(row=1)
 
-        # History Output
-        
+        # History Output (Row 2)
+        # Generate string from list of calculations
+        history_string = ""
+
+        if len(calc_history) >= 7:
+            for item in range(0, 7):
+                history_string += calc_history[len(calc_history) - item - 1]+"\n"
+        else:
+            for item in calc_history:
+                history_string += calc_history[len(calc_history) - calc_history.index(item) - 1] + "\n"
+                self.history_text.config(text="Here is your calculation history. You can use the export button to save this data to text file if desired.")
+
+        # Label to display calculation history to user
+        self.calc_label = Label(self.history_frame, text=history_string, bg=background, font="Arial 12", justify=LEFT)
+        self.calc_label.grid(row=2)
 
         # Export / Dismiss Buttons Frame (row 3)
         self.export_dismiss_frame = Frame(self.history_frame)
