@@ -25,7 +25,6 @@ class Converter:
     def export(self):
         print("You asked for export")
         get_export = Export(self)
-        get_export.export_text.configure(text="Export text goes here")
 
 class Export:
     def __init__(self, partner):
@@ -46,7 +45,7 @@ class Export:
         self.export_frame.grid()
 
         # Set up Export heading (Row 0)
-        self.how_heading = Label(self.export_frame, text="Export/Instructions", font=("Arial", "14", "bold"), bg=background)
+        self.how_heading = Label(self.export_frame, text="Export / Instructions", font=("Arial", "14", "bold"), bg=background)
         self.how_heading.grid(row=0)
 
         # Export instructions (Label, Row 1)
@@ -54,12 +53,23 @@ class Export:
         self.export_text.grid(row=1)
 
         # Warning text (Label, Row 2)
-        self.export_text = Label(self.export_frame, text="If the filename you enter below already exists iots contents will be replaced with your calculation history", justify=LEFT, width=40, bg="#ffafaf", fg="maroon", wrap=225, padx=10, pady=10)
-        self.export_text.grid(row=2)
+        self.export_text = Label(self.export_frame, text="If the filename you enter below already exists its contents will be replaced with your calculation history", justify=LEFT, width=40, bg="#ffafaf", fg="maroon", wrap=225, padx=10, pady=10)
+        self.export_text.grid(row=2, pady=10)
 
-        # Dismiss button (Row 3)
-        self.dismiss_button = Button(self.export_frame, text="Dismiss", width=10, bg=background, font=("Arial", "10", "bold"), command=partial(self.close_export, partner))
-        self.dismiss_button.grid(row=2, pady=10)
+        # Filename Entry Box (row 3)
+        self.filename_entry = Entry(self.export_frame, width=20, font="Ariel 14 bold", justify=CENTER)
+        self.filename_entry.grid(row=3, pady=10)
+
+        # Save / Cancel Frame (row 4)
+        self.save_cancel_frame = Frame(self.export_frame)
+        self.save_cancel_frame.grid(row=5, pady=10)
+
+        # Save and Cancel Buttons (row 0 of save_cancel_frame)
+        self.save_button = Button(self.save_cancel_frame, text="Save")
+        self.save_button.grid(row=0, column=0)
+
+        self.cancel_button = Button(self.save_cancel_frame, text="Cancel", command=partial(self.close_export, partner))
+        self.cancel_button.grid(row=0, column=1)
 
     def close_export(self,partner):
         # Put export button back to normal...
