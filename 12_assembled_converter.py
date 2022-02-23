@@ -11,10 +11,7 @@ class Converter:
         background_color = "light blue"
 
         # Initialise list hold calculation history
-        self.all_calc_list = ['0 degrees C is -17.8 degrees F', '0 degrees C is 32 degrees F', 
-                                '40 degrees C is 104 degrees F', '40 degrees C is 4.4 degrees F',
-                                '12 degrees C is 53.6 degrees F', '24 degrees C is 75.2 degrees F',  
-                                '100 degrees C is 37.8 degrees F', ]
+        self.all_calc_list = []
 
         # Converter Main Screen GUI...
         self.converter_frame = Frame(width=600, height=600, bg=background_color, pady=10)
@@ -24,15 +21,141 @@ class Converter:
         self.temp_converter_label = Label(self.converter_frame, text="Temperature Converter", font=("Arial", "16", "bold"), bg=background_color, padx=10, pady=10)
         self.temp_converter_label.grid(row=0)
 
-        # History Button 
-        self.history_button = Button(self.converter_frame, text="History", font=("Arial", "14"), padx=10, pady=10, command=lambda: self.history(self.all_calc_list))
-        self.history_button.grid(row=1)
+        # User Instructions (Row 1)
+        self.temp_instructions_label = Label(self.converter_frame, text="Type in the amount to be converted and then push one of the buttons below...", font="Arial 10 italic", wrap=290, justify=LEFT, bg=background_color, padx=10, pady=10)
+        self.temp_instructions_label.grid(row=1)
+
+        # Temperature Entry Box (Row 2)
+        self.to_convert_entry = Entry(self.converter_frame, width=20, font="Arial 14 bold")
+        self.to_convert_entry.grid(row=2)
+
+        # Conversion Buttons Frame (Row 3)
+        self.conversion_buttons_frame = Frame(self.converter_frame)
+        self.conversion_buttons_frame.grid(row=3, pady=10)
+
+        self.to_c_button = Button(self.conversion_buttons_frame, text="To Centigrade", font="Arial 10 bold", bg = "Khaki1", padx=10, pady=10, command=lambda: self.temp_convert(-459))
+        self.to_c_button.grid(row=0, column=0)
+
+        self.to_f_button = Button(self.conversion_buttons_frame, text="To Fahrenheit", font="Arial 10 bold", bg="Orchid1", padx=10, pady=10, command=lambda: self.temp_convert(-273))
+        self.to_f_button.grid(row=0, column=1)
+        
+        #Answer Label (Row 4)
+        self.answer_label = Label(self.converter_frame, text="Conversion will appear here...", font="Arial 10 bold", wrap=250, bg=background_color, padx=10, pady=10)
+        self.answer_label.grid(row=4)
+
+        # Hist/Help Frame (Row 5)
+        self.hist_help_frame = Frame(self.converter_frame)
+        self.hist_help_frame.grid(row=5, pady=10)
+
+        # History Button (Hist/Help Frame, Row 0)
+        self.history_button = Button(self.hist_help_frame, text="History", font=("Arial", "14"), padx=10, pady=10, command=lambda: self.history(self.all_calc_list))
+        self.history_button.grid(row=0, column=0)
+
+        # Help Button (Hist/Help Frame, Row 0)
+        self.help_button = Button(self.hist_help_frame, text="Help", font=("Arial", "14"), padx=10, pady=10, command=self.help)
+        self.help_button.grid(row=0, column=1)
 
         if len(self.all_calc_list) == 0:
             self.history_button.config(state=DISABLED)
 
+    def temp_convert(self, low):
+        print(low)
+
+        error = "#ffafaf" # Pale Pink
+
+        # Retrieve amount entered into entry field
+        to_convert = self.to_convert_entry.get()
+
+        # Check amount is a valid number
+        try:
+            to_convert = float(to_convert)
+            has_errors = "no"
+
+            # Check and convert to F
+            if low == -273 and to_convert >= low:
+                fahrenheit = (to_convert * 9/5) + 32
+                to_convert = self.round_it(to_convert)
+                fahrenheit = self.round_it(fahrenheit)
+                answer = "{} degrees C is {} degrees F".format(to_convert, fahrenheit)
+
+            # Check and convert to C
+            elif low == -459 and to_convert >= low:
+                celsius = (to_convert - 32) * 5/9
+                to_convert = self.round_it(to_convert)
+                celsius = self.round_it(celsius)
+                answer = "{} degrees F is {} degrees C".format(to_convert, celsius)
+
+            else:
+                answer = "Too cold!"
+                has_errors == "no"
+
+            # Display Answer
+            if has_errors == "no":
+                self.answer_label.configure(text=answer, fg="blue")
+                self.to_convert_entry.configure(bg="white")
+            else:
+                self.answer_label.configure(text=answer, fg="red")
+                self.to_convert_entry.configure(bg=error)
+
+            # Add Answer to list for history
+            if answer != "Too cold!":
+                self.all_calc_list.append(answer)
+                self.history_button.config(state=NORMAL)
+
+        except ValueError:
+            self.answer_label.configure(text="Enter a number!!", fg="red")
+            self.to_convert_entry.configure(bg=error)
+
+    def round_it(self, to_round):
+        if to_round % 1 == 0:
+            rounded = int(to_round)
+        else:
+            rounded = round(to_round, 1)
+        
+        return rounded
+
+    def help(self):
+        print("You asked for help")
+        get_help = Help(self)
+        get_help.help_text.configure(text="Please enter a number in the box and then push one of the buttons to convert then number to either degrees C or degrees F.\n\nThe Calculation History area shows up to seven past calculations (most recent at the top).\n\nYou can also export your full calculation history to a text file if desired")
+
     def history(self, calc_history):
         History(self, calc_history)
+
+class Help:
+    def __init__(self, partner):
+
+        background = "orange"
+
+        # disable help button
+        partner.help_button.config(state=DISABLED)
+
+        # Sets up child window (ie: help box)
+        self.help_box = Toplevel()
+        
+        # If users press cross at top, closes help and 'releases' help button
+        self.help_box.protocol('WM_DELETE_WINDOW', partial(self.close_help, partner))
+
+        # Set up GUI Frame
+        self.help_frame = Frame(self.help_box, bg=background)
+        self.help_frame.grid()
+
+        # Set up Help heading (Row 0)
+        self.how_heading = Label(self.help_frame, text="Help/Instructions", font=("Arial", "14", "bold"), bg=background)
+        self.how_heading.grid(row=0)
+
+        # Help text (Label, Row 1)
+        self.help_text = Label(self.help_frame, text="This is Help", justify=LEFT, width=40, bg=background, wrap=250)
+        self.help_text.grid(row=1)
+
+        # Dismiss button (Row 2)
+        self.dismiss_button = Button(self.help_frame, text="Dismiss", width=10, bg=background, font=("Arial", "10", "bold"), command=partial(self.close_help, partner))
+        self.dismiss_button.grid(row=2, pady=10)
+
+    def close_help(self,partner):
+        # Put help button back to normal...
+        partner.help_button.config(state=NORMAL)
+        self.help_box.destroy()
 
 class History:
     def __init__(self, partner, calc_history):

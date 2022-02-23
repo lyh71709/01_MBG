@@ -1,0 +1,6 @@
+1 degrees C is 33.8 degrees F
+2 degrees C is 35.6 degrees F
+3 degrees C is 37.4 degrees F
+4 degrees C is 39.2 degrees F
+5 degrees C is 41 degrees F
+6 degrees C is 42.8 degrees F
