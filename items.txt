@@ -1,2 +1,1 @@
--459 degrees F is -272.8 degrees C
-Too cold!
+1 degrees F is -17.2 degrees C
