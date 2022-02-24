@@ -270,7 +270,7 @@ class Export:
 
     def save_history(self, partner, calc_history):
         
-        # Regular Expression to check file_name is valid
+        # Regular Expression to check filename is valid
         valid_char = "[A-Za-z0-9_]"
         has_error = "no"
 
@@ -281,20 +281,23 @@ class Export:
             if re.match(valid_char, letter):
                 continue
 
-            elif  letter == "":
+            elif letter == " ":
                 problem = "(no spaces allowed)"
 
             else:
                 problem = "(no {}'s allowed)".format(letter)
+            has_error = "yes"
+            break
+
         if filename == "":
-            problem = "can't be blank"
+            problem = "Can't be blank"
             has_error = "yes"
         
         if has_error == "yes":
             # Display error message
             self.save_error_label.config(text="Invalid filename - {}".format(problem))
             # Change entry box background to pink
-            self.filename_entry.config(bg="ffafaf")
+            self.filename_entry.config(bg="#ffafaf")
             print()
 
         else:
