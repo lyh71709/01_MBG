@@ -9,6 +9,10 @@ from PIL import ImageTk,Image
 
 class Converter:
     def __init__(self, parent):
+        def on_enter(e):
+            button.config(bg="red")
+        def on_leave(button, e):
+            button.config(bg="SystemButtonFace")
         
         # Formatting Variables...
         background_color = "light blue"
@@ -65,6 +69,9 @@ class Converter:
 
         if len(self.all_calc_list) == 0:
             self.history_button.config(state=DISABLED)
+
+        self.help_button.bind('<Enter>', on_enter)
+        self.help_button.bind('<Leave>', on_leave)
 
     def temp_convert(self, low):
         print(low)
@@ -129,6 +136,7 @@ class Converter:
 
     def history(self, calc_history):
         History(self, calc_history)
+
 
 class Help:
     def __init__(self, partner):
