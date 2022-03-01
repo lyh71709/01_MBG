@@ -1,3 +1,4 @@
+# Adds date and time
 from tkinter import *
 from functools import partial
 import os

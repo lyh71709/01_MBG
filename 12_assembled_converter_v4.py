@@ -1,18 +1,18 @@
+#Adds button hover color change
 from tkinter import *
 from functools import partial
 import os
 import re
 from datetime import datetime
-from turtle import back
 from PIL import ImageTk,Image
 
 
 class Converter:
     def __init__(self, parent):
         def on_enter(e):
-            button.config(bg="red")
-        def on_leave(button, e):
-            button.config(bg="SystemButtonFace")
+            e.widget.config(bg="pink")
+        def on_leave(e):
+            e.widget.config(bg="SystemButtonFace")
         
         # Formatting Variables...
         background_color = "light blue"
@@ -72,6 +72,9 @@ class Converter:
 
         self.help_button.bind('<Enter>', on_enter)
         self.help_button.bind('<Leave>', on_leave)
+        
+        self.history_button.bind('<Enter>', on_enter)
+        self.history_button.bind('<Leave>', on_leave)
 
     def temp_convert(self, low):
         print(low)
@@ -175,6 +178,10 @@ class Help:
 
 class History:
     def __init__(self, partner, calc_history):
+        def on_enter(e):
+            e.widget.config(bg="pink")
+        def on_leave(e):
+            e.widget.config(bg="SystemButtonFace")
 
         background = "#a9ef99" # Pale green
 
@@ -227,6 +234,11 @@ class History:
         self.dismiss_button = Button(self.export_dismiss_frame, text="Dismiss", font=("Arial", "12", "bold"), command=partial(self.close_history, partner))
         self.dismiss_button.grid(row=0, column=1)
 
+        self.export_button.bind('<Enter>', on_enter)
+        self.export_button.bind('<Leave>', on_leave)
+        self.dismiss_button.bind('<Enter>', on_enter)
+        self.dismiss_button.bind('<Leave>', on_leave)
+
     def close_history(self,partner):
         # Put history button back to normal...
         partner.history_button.config(state=NORMAL)
@@ -237,6 +249,10 @@ class History:
 
 class Export:
     def __init__(self, partner, calc_history):
+        def on_enter(e):
+            e.widget.config(bg="pink")
+        def on_leave(e):
+            e.widget.config(bg="SystemButtonFace")
 
         background = "orange"
 
@@ -283,6 +299,11 @@ class Export:
 
         self.cancel_button = Button(self.save_cancel_frame, text="Cancel", command=partial(self.close_export, partner))
         self.cancel_button.grid(row=0, column=1)
+
+        self.save_button.bind('<Enter>', on_enter)
+        self.save_button.bind('<Leave>', on_leave)
+        self.cancel_button.bind('<Enter>', on_enter)
+        self.cancel_button.bind('<Leave>', on_leave)
 
     def save_history(self, partner, calc_history):
         

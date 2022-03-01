@@ -7,9 +7,11 @@ win.geometry("750x250")
 #Define functions
 def on_enter(e):
    button.config(background='OrangeRed3', foreground= "white")
+   print(e)
 
 def on_leave(e):
    button.config(background= 'SystemButtonFace', foreground= 'black')
+   print(e)
 #Create a Button
 button= Button(win, text= "Click Me", font= ('Helvetica 13 bold'))
 button.pack(pady= 20)
