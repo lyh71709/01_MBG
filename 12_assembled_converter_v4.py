@@ -72,7 +72,6 @@ class Converter:
 
         self.help_button.bind('<Enter>', on_enter)
         self.help_button.bind('<Leave>', on_leave)
-        
         self.history_button.bind('<Enter>', on_enter)
         self.history_button.bind('<Leave>', on_leave)
 
