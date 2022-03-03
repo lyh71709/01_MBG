@@ -1,4 +1,4 @@
-#Fixes window problems
+#Fixes window problems and fixed the button hover effect
 from tkinter import *
 from functools import partial
 import os
@@ -6,13 +6,14 @@ import re
 from datetime import datetime
 from PIL import ImageTk,Image
 
+def on_enter(e):
+    e.widget.config(bg="snow4", fg="white")
+def on_leave(e):
+    e.widget.config(bg="SystemButtonFace", fg="black")
 
 class Converter:
     def __init__(self, parent):
-        def on_enter(e):
-            e.widget.config(bg="pink")
-        def on_leave(e):
-            e.widget.config(bg="SystemButtonFace")
+   
         
         # Formatting Variables...
         background_color = "light blue"
@@ -69,15 +70,15 @@ class Converter:
 
         if len(self.all_calc_list) == 0:
             self.history_button.config(state=DISABLED)
-
+            
+            
         self.help_button.bind('<Enter>', on_enter)
         self.help_button.bind('<Leave>', on_leave)
-        
-        self.history_button.bind('<Enter>', on_enter)
-        self.history_button.bind('<Leave>', on_leave)
 
     def temp_convert(self, low):
-        print(low)
+
+        self.history_button.bind('<Enter>', on_enter)
+        self.history_button.bind('<Leave>', on_leave)
 
         error = "#ffafaf" # Pale Pink
 
@@ -178,15 +179,13 @@ class Help:
 
 class History:
     def __init__(self, partner, calc_history):
-        def on_enter(e):
-            e.widget.config(bg="pink")
-        def on_leave(e):
-            e.widget.config(bg="SystemButtonFace")
 
         background = "#a9ef99" # Pale green
 
         # disable history button
         partner.history_button.config(state=DISABLED)
+        partner.history_button.unbind("<Enter>")
+        partner.history_button.unbind("<Leave>")
 
         # Sets up child window (ie: history box)
         self.history_box = Toplevel()
@@ -242,6 +241,9 @@ class History:
     def close_history(self,partner):
         # Put history button back to normal...
         partner.history_button.config(state=NORMAL)
+        partner.history_button.config(bg="SystemButtonFace", fg="black")
+        partner.history_button.bind('<Enter>', on_enter)
+        partner.history_button.bind('<Leave>', on_leave)
         self.history_box.destroy()
 
     def export(self, calc_history):
@@ -251,10 +253,6 @@ class History:
 
 class Export:
     def __init__(self, partner, calc_history):
-        def on_enter(e):
-            e.widget.config(bg="pink")
-        def on_leave(e):
-            e.widget.config(bg="SystemButtonFace")
 
         background = "orange"
 
